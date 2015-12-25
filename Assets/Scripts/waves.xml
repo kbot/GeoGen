@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<WaveDescriptors>
+<Wave count="1">
+<Enemy type="Cube" count="3"/>
+</Wave>
+<Wave count="2">
+<Enemy type="Cube" count="3"/>
+</Wave>
+<Wave count="3">
+<Enemy type="Rect" count="2"/>
+</Wave>
+<Wave count="4">
+<Enemy type="Cyl" count="1"/>
+</Wave>
+<Wave count="5">
+<Enemy type="Cube" count="5"/>
+<Enemy type="Rect" count="2"/>
+</Wave>
+<Wave count="6">
+<Enemy type="Cube" count="5"/>
+<Enemy type="Cyl" count="1"/>
+</Wave>
+<Wave count="7">
+<Enemy type="Cube" count="5"/>
+<Enemy type="Rect" count="2"/>
+<Enemy type="Cyl" count="1"/>
+</Wave>
+<Wave count="8">
+<Enemy type="Cube" count="10"/>
+<Enemy type="Rect" count="10"/>
+</Wave>
+<Wave count="9">
+<Enemy type="Cube" count="10"/>
+<Enemy type="Rect" count="10"/>
+</Wave>
+<Wave count="10">
+<Enemy type="Cube" count="5"/>
+<Enemy type="Rect" count="5"/>
+<Enemy type="Cyl" count="5"/>
+</Wave>
+</WaveDescriptors>
+
