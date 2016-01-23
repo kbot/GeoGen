@@ -49,6 +49,24 @@ public class GGLevelManager : Singleton<GGLevelManager> {
 		return hitInfo;
 	}
 
+	public Vector3 getRandomLevelPosition() {
+		
+		float minX = float.MaxValue, maxX = float.MinValue, minZ = float.MaxValue, maxZ = float.MinValue;
+		foreach (Transform wall in walls) {
+			minX = Mathf.Min (minX,wall.transform.position.x);
+			minZ = Mathf.Min (minZ,wall.transform.position.z);
+			maxX = Mathf.Max (maxX,wall.transform.position.x);
+			maxZ = Mathf.Max (maxZ,wall.transform.position.z);
+		}
+		//we've got the min and max values for the level space, calc randoms in those ranges
+		float randXPos = Random.Range(minX,maxX);
+		float randZPos = Random.Range(minZ,maxZ);
+
+		Vector3 returnPosition = new Vector3(randXPos,floor.transform.position.y,randZPos);
+
+		return returnPosition;
+	}
+
 	// Use this for initialization
 	void Start () {
 	

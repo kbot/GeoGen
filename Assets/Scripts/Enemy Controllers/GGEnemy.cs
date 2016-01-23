@@ -34,7 +34,7 @@ public class GGEnemy : MonoBehaviour {
 	void OnParticleCollision(GameObject otherObject) {
 		//Debug.Log ("OnParticleCollision");
 		if (otherObject.tag == "Bullet") {
-			takeDamage (otherObject.GetComponent<GGBullet>().fBulletStrength);
+			//takeDamage (otherObject.GetComponent<GGBullet>().fBulletStrength);
 			bMoveThisFrame = false;	
 		}
 	}

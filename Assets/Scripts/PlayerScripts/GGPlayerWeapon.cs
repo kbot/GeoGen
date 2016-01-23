@@ -37,22 +37,20 @@ public class GGPlayerWeapon : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		transform.rotation = Quaternion.LookRotation (fireVector);
-		if (bAutoFire ||  Input.GetKeyDown(KeyCode.Mouse0)) {
+		if (bAutoFire || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Q)) {
 			for (int i = 0; i < arrBulletParticleSystems.Length; i++) {
 				foreach(ParticleSystem ps in arrBulletParticleSystems[i].GetComponents<ParticleSystem>()) {
 					ps.startLifetime = float.MaxValue;
 				}	
 			}
 		}
-		else {
-			for (int i = 0; i < arrBulletParticleSystems.Length; i++) {
-				foreach(ParticleSystem ps in arrBulletParticleSystems[i].GetComponents<ParticleSystem>()) {
-					ps.startLifetime = 0.0f;
-				}	
-			}
-		}
 
 		updateSinEnableEmitters();
+
+		//DEBUG - testing upgrades
+		if (Input.GetKeyDown (KeyCode.U)) {
+			upgradeWeapon ();
+		}
 	}
 
 	void updateSinEnableEmitters ()

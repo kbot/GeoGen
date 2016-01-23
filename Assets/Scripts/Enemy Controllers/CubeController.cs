@@ -17,9 +17,9 @@ public class CubeController : GGEnemy {
 	protected override void Update () {
 		base.Update ();
 		if (bMoveThisFrame) {
-			rigidbody.AddForce (Vector3.up * MoveForce);
-			rigidbody.AddForce (moveVector * MoveForce/1.5f);
-			rigidbody.AddTorque (torqueVector.normalized * MoveForce * 2.0f);
+			GetComponent<Rigidbody>().AddForce (Vector3.up * MoveForce);
+			GetComponent<Rigidbody>().AddForce (moveVector * MoveForce/1.5f);
+			GetComponent<Rigidbody>().AddTorque (torqueVector.normalized * MoveForce * 2.0f);
 			bMoveThisFrame = false;
 		}
 	}

@@ -28,13 +28,13 @@ public class RectPrismController : GGEnemy {
 		Vector3 vectorToTarget = seekerScript.getVectorToTarget ();
 		if (rectCheckShouldJab(vectorToTarget, Vector3.right) || rectCheckShouldJab(vectorToTarget, Vector3.left)) {
 			Debug.Log("Adding Force for JAB");
-			rigidbody.AddForce (moveVector * MoveForce * 2.75f);
+			GetComponent<Rigidbody>().AddForce (moveVector * MoveForce * 2.75f);
 			bCanJabThisFrame = false;
 		}
 		else if (bMoveThisFrame) {
-			rigidbody.AddForce (Vector3.up * MoveForce);
-			rigidbody.AddForce (moveVector * MoveForce/1.75f);
-			rigidbody.AddTorque (torqueVector.normalized * MoveForce * 2.75f);
+			GetComponent<Rigidbody>().AddForce (Vector3.up * MoveForce);
+			GetComponent<Rigidbody>().AddForce (moveVector * MoveForce/1.75f);
+			GetComponent<Rigidbody>().AddTorque (torqueVector.normalized * MoveForce * 2.75f);
 			bMoveThisFrame = false;
 		}
 	}

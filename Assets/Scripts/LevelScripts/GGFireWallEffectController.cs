@@ -31,7 +31,7 @@ public class GGFireWallEffectController : GGGroundEffect {
 			newTile = instantiateEffectPrefab();
 			newTile.transform.position = nextSpawnPos - transform.right * 1.5f;
 
-			nextSpawnPos += spawnDir * newTile.renderer.bounds.size.magnitude * 0.5f;
+			nextSpawnPos += spawnDir * newTile.GetComponent<Renderer>().bounds.size.magnitude * 0.5f;
 			yield return null;
 		}
 	}

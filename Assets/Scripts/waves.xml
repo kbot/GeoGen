@@ -38,5 +38,9 @@
 <Enemy type="Rect" count="5"/>
 <Enemy type="Cyl" count="5"/>
 </Wave>
+<Wave count="11">
+<Enemy type="Cube" count="5"/>
+<Enemy type="Cone" count="2"/>
+</Wave>
 </WaveDescriptors>
 

@@ -34,7 +34,7 @@ public class CylinderController : GGEnemy {
 	}
 	void FixedUpdate () {
 		Vector3 normalizedTargetVector = rotateToVector.normalized;
-		rigidbody.AddForce (normalizedTargetVector * (MoveForce * (SpeedMultiplerPerLevel * (float)cylinderLevel)));
+		GetComponent<Rigidbody>().AddForce (normalizedTargetVector * (MoveForce * (SpeedMultiplerPerLevel * (float)cylinderLevel)));
 	}
 
 	public override float takeDamage (float fDamage)

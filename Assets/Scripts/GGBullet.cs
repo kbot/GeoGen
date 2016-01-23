@@ -27,9 +27,15 @@ public class GGBullet : MonoBehaviour {
 		}
 		else if (otherObject.tag == "Wall") {
 			//spawn wall decal
+			//spawn explosion emitter
+			//destroy bullet
+			Destroy(gameObject);
 		}
 		else if (otherObject.tag == "Floor") {
 			//spawn emitter
+			//spawn explosion emitter
+			//destroy bullet
+			Destroy(gameObject);
 		}
 	}
 }

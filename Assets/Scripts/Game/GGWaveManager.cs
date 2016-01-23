@@ -58,6 +58,7 @@ public class GGWaveManager : Singleton<GGWaveManager> {
 					enemyPositionMod.y = Random.Range(transform.position.y,transform.position.y + 5.0f);
 					GGEnemy newEnemy = (GGEnemy)Instantiate(SpawnablePrefabs[indexPrefabToSpawn],transform.position + enemyPositionMod,Quaternion.identity);
 					newEnemy.setTarget(GGGameManager.Instance.Player);
+					nObjectsSpawned++;
 				}
 			} while (waveDescriptor.ReadToNextSibling("Enemy"));
 		}

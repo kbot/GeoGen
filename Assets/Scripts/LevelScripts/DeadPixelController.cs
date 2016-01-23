@@ -29,7 +29,7 @@ public class DeadPixelController : GGEnemy {
 		moveVector = getMoveVector (vecToTarget);
 
 		if (bMoveThisFrame) {
-			rigidbody.AddForce(moveVector * MoveForce);
+			GetComponent<Rigidbody>().AddForce(moveVector * MoveForce);
 			bMoveThisFrame = false;
 		}
 	}
@@ -44,7 +44,7 @@ public class DeadPixelController : GGEnemy {
 			//TODO - Sap Life
 		}
 		if (other.tag == "Enemy") {
-			//TODO - Poison
+			//TODO - Infect - turn enemy into infected form, causing poisoning damage to player when touched
 		}
 		Destroy(this.gameObject);
 	}
@@ -58,7 +58,7 @@ public class DeadPixelController : GGEnemy {
 			moveVector = getMoveVector (vecToTarget);
 			if (prevMoveVector != moveVector) {
 				//changing directions, zero vel so that we turn on a dime
-				rigidbody.velocity = Vector3.zero;
+				GetComponent<Rigidbody>().velocity = Vector3.zero;
 				Debug.Log("DeadPixelController.deadPixelSeekCoroutine Switching Directions");
 			}
 			bMoveThisFrame = true;

@@ -9,7 +9,8 @@ public class GeoGenCharacterController : MonoBehaviour {
 	public IList BulletEmitters;
 
 	//Movement
-	public float fMaxMoveSpeed;
+	public float fMoveSpeedMultiplier;
+	float fMaxMoveVelocity = 9.0f;
 	float moveSpeed;
 
 	//Jumping
@@ -29,7 +30,7 @@ public class GeoGenCharacterController : MonoBehaviour {
 	void Update () {
 		updateFacadeChildObjects ();
 	}
-	// Update is called once per frame
+
 	void FixedUpdate () {
 	
 		//get the camera relative forward
@@ -45,15 +46,16 @@ public class GeoGenCharacterController : MonoBehaviour {
 		float h = Input.GetAxisRaw("Horizontal");
 		
 		// Target direction relative to the camera
-		Vector3 targetDirection = (h * cameraRight + v * cameraForward) * fMaxMoveSpeed;
+		Vector3 targetDirection = (h * cameraRight + v * cameraForward) * fMoveSpeedMultiplier;
+		Rigidbody playerBody = GetComponent<Rigidbody> ();
 
 		if (bGrounded && Input.GetKeyDown(KeyCode.Space)) {
-			rigidbody.AddForce(Vector3.up * jumpForce);
-			//bGrounded = false;
+			playerBody.AddForce(Vector3.up * jumpForce);
+			bGrounded = false;
 		}
-		else {
-			//Debug.Log ("targetDirection = " + targetDirection);
-			rigidbody.AddForce (targetDirection);
+		else if (playerBody.GetPointVelocity(playerBody.position).magnitude < fMaxMoveVelocity) {
+			//Debug.Log ("PlayerRigidBody Velocity Mag:" + playerBody.GetPointVelocity (playerBody.position).magnitude);
+			playerBody.AddForce (targetDirection);
 		}
 	}
 
