@@ -25,6 +25,7 @@ public class GeoGenCharacterController : MonoBehaviour {
 	void Start () {
 		bGrounded = true;
 		playerWeapon = GGWeaponFactory.Instance.getWeaponAtTier (nWeaponTier);
+		StartCoroutine (postPositionToLevelManager ());
 	}
 
 	void Update () {
@@ -89,4 +90,15 @@ public class GeoGenCharacterController : MonoBehaviour {
 			return playerWeapon.GetComponent<GGPlayerWeapon>();
 		}
 	}
+
+	//CoRoutines
+	IEnumerator postPositionToLevelManager () {
+		while (true) {
+			if (bGrounded) {
+				GGLevelManager.Instance.pushKnownPlayerPosition (transform.position);	
+			}
+			yield return new WaitForSeconds(0.3f);
+		}
+	}
+
 }

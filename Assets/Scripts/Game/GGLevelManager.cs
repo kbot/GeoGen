@@ -13,7 +13,38 @@ public class GGLevelManager : Singleton<GGLevelManager> {
 	private int nCurrentLevel;
 
 	public Transform[] walls;
-	public Transform floor;
+
+	public GameObject floor;
+	private Texture2D floorGridTex;
+	private Color[] colors;
+
+	private ArrayList fifoLastKnownPlayerPositions;
+	private const int maxKnownPlayerPositions = 4;
+
+	// Use this for initialization
+	void Start () {
+		fifoLastKnownPlayerPositions = new ArrayList (maxKnownPlayerPositions);
+		floorGridTex = new Texture2D (20, 20, TextureFormat.ARGB32, true, true);
+		floorGridTex.filterMode = FilterMode.Point;
+		floor.GetComponent<Renderer>().material.SetTexture("_GridTex",floorGridTex);
+		colors = new Color[floorGridTex.width * floorGridTex.height];
+		for (int i = 0; i < floorGridTex.width * floorGridTex.height; ++i) {
+			colors [i] = Color.white;
+		}
+		floorGridTex.SetPixels(0,0,floorGridTex.width,floorGridTex.height,colors);
+		floorGridTex.Apply ();
+	}
+
+	// Update is called once per frame
+	void Update () {
+		
+	}
+
+	void FixedUpdate () {
+		floorGridTex.SetPixels(0,0,floorGridTex.width,floorGridTex.height,colors);
+
+		illuminateFloorAtPositionsWithColor (fifoLastKnownPlayerPositions.ToArray (), Color.blue);
+	}
 
 	public void initializeLevelDirectory(string filePath)
 	{
@@ -22,6 +53,11 @@ public class GGLevelManager : Singleton<GGLevelManager> {
 	public void loadLevel (int nLevel)
 	{
 
+	}
+
+	public void beginLevelWithCountdown (int countdownFrom)
+	{
+		
 	}
 
 	public bool isInsideLevel(Vector3 pos) {
@@ -67,13 +103,25 @@ public class GGLevelManager : Singleton<GGLevelManager> {
 		return returnPosition;
 	}
 
-	// Use this for initialization
-	void Start () {
-	
+	public void pushKnownPlayerPosition(Vector3 position) {
+		if (fifoLastKnownPlayerPositions == null) {
+			fifoLastKnownPlayerPositions = new ArrayList (maxKnownPlayerPositions);
+		}
+		if (fifoLastKnownPlayerPositions.Count + 1 > maxKnownPlayerPositions) {
+			fifoLastKnownPlayerPositions.RemoveAt (0);
+		}
+		fifoLastKnownPlayerPositions.Add (position);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	public void illuminateFloorAtPositionsWithColor(object [] arrayPositions, Color illuminationColor) {
+		int xOffset;
+		int yOffset;
+		foreach (Vector3 item in arrayPositions) {
+			xOffset = (int)((item.x+25) * 20/50);
+			yOffset = (int)((item.z+25) * 20/50);
+			floorGridTex.SetPixel(xOffset,yOffset,illuminationColor);	
+		}
+
+		floorGridTex.Apply ();
 	}
 }
