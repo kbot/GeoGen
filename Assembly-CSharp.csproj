@@ -62,10 +62,12 @@
      <Compile Include="Assets\Scripts\Game\GGGameManager.cs" />
      <Compile Include="Assets\Scripts\Game\GGLevelManager.cs" />
      <Compile Include="Assets\Scripts\Game\GGParticleManager.cs" />
+     <Compile Include="Assets\Scripts\Game\GGPowerupFactory.cs" />
      <Compile Include="Assets\Scripts\Game\GGWaveManager.cs" />
      <Compile Include="Assets\Scripts\Game\GGWeaponFactory.cs" />
+     <Compile Include="Assets\Scripts\Game\Powerups\BasePowerupController.cs" />
      <Compile Include="Assets\Scripts\LevelScripts\DeadPixelController.cs" />
-     <Compile Include="Assets\Scripts\LevelScripts\FloorEffectController.cs" />
+     <Compile Include="Assets\Scripts\LevelScripts\FloorIlluminationController.cs" />
      <Compile Include="Assets\Scripts\LevelScripts\GGDeadPixelEffectController.cs" />
      <Compile Include="Assets\Scripts\LevelScripts\GGFireWallEffectController.cs" />
      <Compile Include="Assets\Scripts\LevelScripts\GGGroundEffect.cs" />

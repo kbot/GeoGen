@@ -1,11 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PlayerScripts/GeoGenCharacterController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LevelScripts/FloorIlluminationController.cs">
     <Files>
-      <File FileName="Assets/Scripts/Game/GGLevelManager.cs" Line="119" Column="45" />
-      <File FileName="Assets/Standard Assets/Effects/VertextEffects/Shaders/floorTileShader.shader" Line="50" Column="43" />
-      <File FileName="Assets/Scripts/LevelScripts/FloorEffectController.cs" Line="13" Column="18" />
-      <File FileName="Assets/Scripts/PlayerScripts/GeoGenCharacterController.cs" Line="100" Column="39" />
+      <File FileName="Assets/Scripts/Game/GGLevelManager.cs" Line="107" Column="58" />
+      <File FileName="Assets/Standard Assets/Effects/VertextEffects/Shaders/floorTileShader.shader" Line="35" Column="25" />
+      <File FileName="Assets/Scripts/PlayerScripts/GeoGenCharacterController.cs" Line="100" Column="14" />
+      <File FileName="Assets/Scripts/LevelScripts/FloorIlluminationController.cs" Line="32" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

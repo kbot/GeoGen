@@ -23,7 +23,6 @@ public class GeoGenCharacterController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		bGrounded = true;
 		playerWeapon = GGWeaponFactory.Instance.getWeaponAtTier (nWeaponTier);
 		StartCoroutine (postPositionToLevelManager ());
 	}
@@ -57,6 +56,13 @@ public class GeoGenCharacterController : MonoBehaviour {
 		else if (playerBody.GetPointVelocity(playerBody.position).magnitude < fMaxMoveVelocity) {
 			//Debug.Log ("PlayerRigidBody Velocity Mag:" + playerBody.GetPointVelocity (playerBody.position).magnitude);
 			playerBody.AddForce (targetDirection);
+		}
+	}
+
+	//Detect if the player is thouching the level
+	void OnCollisionEnter(Collision collision) {
+		if (!bGrounded && collision.gameObject.layer == LayerMask.NameToLayer("Environment")) {
+			bGrounded = true;
 		}
 	}
 

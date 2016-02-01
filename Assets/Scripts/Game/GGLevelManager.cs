@@ -3,36 +3,22 @@ using System.Collections;
 
 public class GGLevelManager : Singleton<GGLevelManager> {
 
-//	public struct GGLevelProperties
-//	{
-//		float fGridX;
-//		float fGridY;
-//
-//	}
-
 	private int nCurrentLevel;
 
 	public Transform[] walls;
 
 	public GameObject floor;
-	private Texture2D floorGridTex;
-	private Color[] colors;
+	private FloorIlluminationController floorIllumController;
 
 	private ArrayList fifoLastKnownPlayerPositions;
 	private const int maxKnownPlayerPositions = 4;
 
+	public GameObject floorPingPrefab; 
+
 	// Use this for initialization
 	void Start () {
 		fifoLastKnownPlayerPositions = new ArrayList (maxKnownPlayerPositions);
-		floorGridTex = new Texture2D (20, 20, TextureFormat.ARGB32, true, true);
-		floorGridTex.filterMode = FilterMode.Point;
-		floor.GetComponent<Renderer>().material.SetTexture("_GridTex",floorGridTex);
-		colors = new Color[floorGridTex.width * floorGridTex.height];
-		for (int i = 0; i < floorGridTex.width * floorGridTex.height; ++i) {
-			colors [i] = Color.white;
-		}
-		floorGridTex.SetPixels(0,0,floorGridTex.width,floorGridTex.height,colors);
-		floorGridTex.Apply ();
+		floorIllumController = floor.GetComponent<FloorIlluminationController> ();
 	}
 
 	// Update is called once per frame
@@ -41,9 +27,16 @@ public class GGLevelManager : Singleton<GGLevelManager> {
 	}
 
 	void FixedUpdate () {
-		floorGridTex.SetPixels(0,0,floorGridTex.width,floorGridTex.height,colors);
-
-		illuminateFloorAtPositionsWithColor (fifoLastKnownPlayerPositions.ToArray (), Color.blue);
+		#if DEBUG
+		if (Input.GetKeyDown(KeyCode.P)) {
+			Vector3 mostRecentPlayerPos = (Vector3)fifoLastKnownPlayerPositions[0];
+			Vector3 gridAlignedPos = gridAlignedPositionForPositionInLevel (mostRecentPlayerPos);
+			spawnFloorPingEffectAtPositionWithColor (gridAlignedPos, Random.ColorHSV());
+			GameObject pup = GetComponent<GGPowerupFactory>().instantiateRandomPowerup();
+			pup.transform.position = gridAlignedPos + Vector3.up;
+		}
+		#endif
+//		illuminateFloorAtPositionsWithColor (fifoLastKnownPlayerPositions.ToArray (), Color.cyan);
 	}
 
 	public void initializeLevelDirectory(string filePath)
@@ -114,14 +107,27 @@ public class GGLevelManager : Singleton<GGLevelManager> {
 	}
 
 	public void illuminateFloorAtPositionsWithColor(object [] arrayPositions, Color illuminationColor) {
-		int xOffset;
-		int yOffset;
 		foreach (Vector3 item in arrayPositions) {
-			xOffset = (int)((item.x+25) * 20/50);
-			yOffset = (int)((item.z+25) * 20/50);
-			floorGridTex.SetPixel(xOffset,yOffset,illuminationColor);	
+			floorIllumController.illuminateGridAtPositionWithColor(item.x+25.0f,item.z+25.0f,illuminationColor);	
 		}
+	}
 
-		floorGridTex.Apply ();
+	public Vector3 gridAlignedPositionForPositionInLevel(Vector3 position) {
+		Vector2 numGridTiles = floor.GetComponent<Renderer> ().material.mainTextureScale;
+		float sizePerTileX = floor.transform.localScale.x/numGridTiles.x;
+		float sizePerTileY = floor.transform.localScale.y/numGridTiles.y;
+		int xGridPosition = (int)((position.x+25.0f)/sizePerTileX);
+		int yGridPosition = (int)((position.z+25.0f)/sizePerTileY);
+		return new Vector3 (sizePerTileX * xGridPosition - 25.0f + sizePerTileX * 0.5f, position.y, sizePerTileY * yGridPosition - 25.0f + sizePerTileY * 0.5f);
+	}
+
+	public void spawnFloorPingEffectAtPositionWithColor(Vector3 position,Color pingColor) {
+		if (isInsideLevel(position)) {
+			Vector3 gridAlignedPos = gridAlignedPositionForPositionInLevel (position);
+			GameObject pingEffect = Instantiate (floorPingPrefab);
+			//place ping effect .1f above floor
+			pingEffect.transform.position = new Vector3 (gridAlignedPos.x, floor.transform.position.y + 0.1f, gridAlignedPos.z);
+			Destroy(pingEffect,10.0f);
+		}
 	}
 }
