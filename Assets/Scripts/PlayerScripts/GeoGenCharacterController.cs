@@ -24,6 +24,7 @@ public class GeoGenCharacterController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		playerWeapon = GGWeaponFactory.Instance.getWeaponAtTier (nWeaponTier);
+		playerWeapon.transform.parent = transform;
 		StartCoroutine (postPositionToLevelManager ());
 	}
 
@@ -76,7 +77,7 @@ public class GeoGenCharacterController : MonoBehaviour {
 		cameraLook.y = 0;
 		cameraLook.Normalize ();
 		playerWeapon.GetComponent<GGPlayerWeapon> ().fireVector = cameraLook;
-		playerWeapon.transform.position = transform.position + cameraLook;
+		playerWeapon.transform.position = transform.position;
 	}
 
 	public void upgradeWeapon(){
@@ -86,6 +87,7 @@ public class GeoGenCharacterController : MonoBehaviour {
 			Destroy(playerWeapon);
 			nWeaponTier++;
 			playerWeapon = GGWeaponFactory.Instance.getWeaponAtTier (nWeaponTier);
+			playerWeapon.transform.parent = transform;
 			playerWeapon.GetComponent<GGPlayerWeapon>().bAutoFire = bPreviousAutoFireSetting;
 		}
 	}

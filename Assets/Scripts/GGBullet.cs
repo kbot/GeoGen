@@ -28,6 +28,7 @@ public class GGBullet : MonoBehaviour {
 		else if (otherObject.tag == "Wall") {
 			//spawn wall decal
 			//spawn explosion emitter
+			GameObject bulletCollisionParticle = GameObject.Instantiate(GGLevelManager.Instance.getBulletCollisionEffect());
 			//destroy bullet
 			Destroy(gameObject);
 		}

@@ -25,11 +25,36 @@ public class GGWaveManager : Singleton<GGWaveManager> {
 	// Update is called once per frame
 	void Update () {
 
-		//Debug
+		#if DEBUG
 		if (Input.GetKeyDown(KeyCode.L)) {
 			Debug.Log ("enabled: " + enabled);
 			bEnableSpawning = !bEnableSpawning;
 		}
+		int indexForDebugSpawn = -1;
+		if (Input.GetKeyDown(KeyCode.Alpha1)) {
+			indexForDebugSpawn = 1;
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha2)) {
+			indexForDebugSpawn = 2;
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha3)) {
+			indexForDebugSpawn = 3;
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha4)) {
+			indexForDebugSpawn = 4;
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha5)) {
+			indexForDebugSpawn = 5;
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha6)) {
+			indexForDebugSpawn = 6;
+		}
+		if (indexForDebugSpawn > 0) {
+			Vector3 randPos = GGLevelManager.Instance.getRandomLevelPosition() + Vector3.up * 5;
+			GGEnemy newEnemy = (GGEnemy)Instantiate(SpawnablePrefabs[indexForDebugSpawn-1],randPos,Quaternion.identity);
+			newEnemy.setTarget(GGGameManager.Instance.Player);
+		}
+		#endif
 		if (bEnableSpawning) {
 			fRunningTime += Time.deltaTime;
 			if (fRunningTime / fDeltaBetweenSpawns > nWaveCount) {

@@ -89,7 +89,7 @@ public class BasePowerupController : MonoBehaviour
 		while (transform.localScale.magnitude > 0) {
 			yield return new WaitForFixedUpdate ();
 			lerpTime += Time.smoothDeltaTime;
-			transform.localScale = Vector3.one * Mathf.SmoothStep(1.0f,0.0f,lerpTime * 1.5f);
+			transform.localScale = Vector3.one * Mathf.SmoothStep(1.0f,0.0f,lerpTime * 2.5f);
 			powerupGlow.range -= Mathf.SmoothStep(0.0f,1.0f,lerpTime * 0.5f);
 			powerupGlow.intensity -= Mathf.SmoothStep(0.0f,1.0f,lerpTime);
 		}

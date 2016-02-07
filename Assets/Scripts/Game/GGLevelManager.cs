@@ -14,6 +14,7 @@ public class GGLevelManager : Singleton<GGLevelManager> {
 	private const int maxKnownPlayerPositions = 4;
 
 	public GameObject floorPingPrefab; 
+	public GameObject bulletCollisionPrefab; 
 
 	// Use this for initialization
 	void Start () {
@@ -36,7 +37,8 @@ public class GGLevelManager : Singleton<GGLevelManager> {
 			pup.transform.position = gridAlignedPos + Vector3.up;
 		}
 		#endif
-//		illuminateFloorAtPositionsWithColor (fifoLastKnownPlayerPositions.ToArray (), Color.cyan);
+
+		illuminateFloorAtPositionsWithColor (fifoLastKnownPlayerPositions.ToArray (), Color.cyan);
 	}
 
 	public void initializeLevelDirectory(string filePath)
@@ -129,5 +131,9 @@ public class GGLevelManager : Singleton<GGLevelManager> {
 			pingEffect.transform.position = new Vector3 (gridAlignedPos.x, floor.transform.position.y + 0.1f, gridAlignedPos.z);
 			Destroy(pingEffect,10.0f);
 		}
+	}
+
+	public GameObject getBulletCollisionEffect() {
+		return bulletCollisionPrefab;
 	}
 }

@@ -3,11 +3,7 @@ using System.Collections;
 
 public class GGPlayerWeapon : MonoBehaviour {
 
-	public GameObject[] bulletPrefabs;
-
 	static float playerWeaponUpgradeStep = 0.25f;
-
-	GameObject[] arrBulletParticleSystems;
 
 	public Vector3 fireVector;
 	public float fFireRate;
@@ -17,60 +13,44 @@ public class GGPlayerWeapon : MonoBehaviour {
 
 	//weapon modifiers
 	public bool bEnableSinWave = false;
-	ParticleSystem.Particle[] particles;
+
+	public float fBulletStrength = 1.0f;
+
+	public Transform[] sinEnabledEmitters;
 
 	// Use this for initialization
 	void Start () {
-		//build the emmitters
-		GGBullet[] arrBulletEmitters = this.GetComponentsInChildren<GGBullet>();
-		arrBulletParticleSystems = new GameObject[arrBulletEmitters.Length];
-		for (int i = 0; i < arrBulletEmitters.Length; i++) {
-			arrBulletParticleSystems[i] = (GameObject)Instantiate(bulletPrefabs[arrBulletEmitters[i].prefabIndex],arrBulletEmitters[i].transform.position,Quaternion.identity);
-			arrBulletParticleSystems[i].transform.parent = arrBulletEmitters[i].transform;
-		}
-
-		if(bEnableSinWave) {
-			particles = new ParticleSystem.Particle[1000];
-		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		transform.rotation = Quaternion.LookRotation (fireVector);
-		if (bAutoFire || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Q)) {
-			for (int i = 0; i < arrBulletParticleSystems.Length; i++) {
-				foreach(ParticleSystem ps in arrBulletParticleSystems[i].GetComponents<ParticleSystem>()) {
-					ps.startLifetime = float.MaxValue;
-				}	
-			}
+		if (bAutoFire || Input.GetKeyDown(KeyCode.Mouse0)) {
+			foreach(ParticleSystem ps in GetComponentsInChildren<ParticleSystem>()) {
+				ps.startLifetime = float.MaxValue;
+			}	
 		}
 
 		updateSinEnableEmitters();
-
-		//DEBUG - testing upgrades
-		if (Input.GetKeyDown (KeyCode.U)) {
-			upgradeWeapon ();
-		}
 	}
 
 	void updateSinEnableEmitters ()
 	{
-		GGBullet[] arrBulletEmitters = this.GetComponentsInChildren<GGBullet>();
-		for (int i = 0; i < arrBulletEmitters.Length; i++) {
-			if (arrBulletEmitters[i].allowsSinWave) {
-				float fSinOffset = Mathf.Sin (Time.time) * Time.deltaTime;
-				arrBulletEmitters[i].transform.position += new Vector3(0.0f,0.0f,0.5f) * fSinOffset;
-			}
+		float fSinOffset = Mathf.Sin (Time.time) * Time.deltaTime;
+		Vector3 positionStep = new Vector3 (0.2f, 0.0f, 0.0f);//TODO - make this a public var
+		foreach (Transform emitterTransform in sinEnabledEmitters) {
+			emitterTransform.transform.localPosition += positionStep * fSinOffset;
+			fSinOffset *= -1.0f;//inverse the next emitter offset
 		}
 	}
 
 	public void upgradeWeapon() {
 		fFireRate += playerWeaponUpgradeStep;
-		for (int i = 0; i < arrBulletParticleSystems.Length; i++) {
-			foreach(ParticleSystem ps in arrBulletParticleSystems[i].GetComponents<ParticleSystem>()) {
-				ps.emissionRate = fFireRate;
-			}	
-		}
+		ParticleSystem.EmissionModule emission;
+		foreach(ParticleSystem ps in GetComponentsInChildren<ParticleSystem>()) {
+			emission = ps.emission;
+			emission.rate = new ParticleSystem.MinMaxCurve(fFireRate);
+		}	
 	}
 
 	public bool weaponRequiresTierUpgrade() {

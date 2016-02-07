@@ -35,10 +35,10 @@ public class FloorIlluminationController : MonoBehaviour {
 		floorGridTex.Apply ();
 	}
 
-	void OnPostRender() {
-		resetGridIllumination ();
+	void OnRenderObject() {
+		//resetGridIllumination ();
 	}
-
+		
 	public void resetGridIllumination() {
 		//TODO - replace with some kind of Blit so we don't have to keep all these color object in memory
 		floorGridTex.SetPixels(0,0,floorGridTex.width,floorGridTex.height,colors);
